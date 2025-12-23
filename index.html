@@ -1,588 +1,571 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #3874c0; -webkit-text-stroke: #3874c0; background-color: #121313}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #3874c0; -webkit-text-stroke: #3874c0; background-color: #121313; min-height: 16.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Gram - 내 손안의 프리미엄 식단 코치</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- CSS Reset & Variables (색상 디자인 보완) --- */
+        :root {
+            /* 로고의 그린-오렌지 그라데이션에서 영감을 받은 색상 팔레트 */
+            --primary-green: #4CAF50; /* 신선한 그린 */
+            --primary-orange: #FF9800; /* 따뜻한 오렌지 */
+            --primary-gradient: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-orange) 100%);
+            
+            --secondary-green-light: #E8F5E9; /* 연한 그린 배경 */
+            --secondary-orange-light: #FFF3E0; /* 연한 오렌지 배경 */
+            
+            --text-main: #2E3B4E; /* 어두운 블루-그레이 텍스트 */
+            --text-sub: #546E7A; /* 중간 톤 블루-그레이 텍스트 */
+            
+            --white: #ffffff;
+            --bg-color: var(--white); /* 기본 배경은 흰색 */
+
+            --accent-color: #FF5722; /* 강조색 (예: 버튼 호버) */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- Components --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient); /* 그라데이션 버튼 */
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3); /* 그린 계열 그림자 */
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-green); /* 그린 테두리 */
+            color: var(--primary-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary-green-light);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .section-desc {
+            font-size: 1.125rem;
+            color: var(--text-sub);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-sub);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 160px 0 100px;
+            /* 그린-오렌지 그라데이션 배경 */
+            background: radial-gradient(circle at top right, var(--secondary-orange-light) 0%, transparent 40%),
+                        radial-gradient(circle at bottom left, var(--secondary-green-light) 0%, transparent 40%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        .hero h1 span {
+            background: var(--primary-gradient); /* 그라데이션 텍스트 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .hero-image {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 8px solid rgba(255,255,255,0.8);
+        }
+
+        /* --- Features Grid --- */
+        .features {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 24px;
+            background: var(--white);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee; /* 가벼운 테두리 */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary-green); /* 호버 시 그린 테두리 */
+        }
+
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            background: var(--secondary-green-light); /* 연한 그린 배경 */
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary-green); /* 그린 아이콘 */
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- Detailed Sections (Zigzag) --- */
+        .details {
+            padding: 100px 0;
+            background-color: #f9fbfd; /* 아주 연한 배경색 추가 */
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            margin-bottom: 120px;
+        }
+
+        .detail-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .detail-image {
+            flex: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--secondary-orange-light); /* 연한 오렌지 배경 */
+            color: var(--primary-orange); /* 오렌지 텍스트 */
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .detail-text h2 {
+            font-size: 2.25rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            color: var(--text-main);
+        }
+
+        .detail-text p {
+            font-size: 1.125rem;
+            color: var(--text-sub);
+            margin-bottom: 30px;
+        }
+
+        .check-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .check-list i {
+            color: var(--primary-green); /* 그린 체크 아이콘 */
+        }
+
+        /* --- CTA Section --- */
+        .cta {
+            padding: 100px 0;
+            background: var(--primary-gradient); /* 그라데이션 배경 */
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+        
+        .cta .btn {
+            background: var(--white);
+            color: var(--primary-green); /* 버튼 텍스트를 그린으로 */
+            font-weight: 700;
+        }
+        
+        .cta .btn:hover {
+            background: var(--secondary-green-light);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 0;
+            background: var(--white);
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.875rem;
+            border-top: 1px solid #eee;
+        }
+
+        .biz-info {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+        }
+        
+        .biz-info strong {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        footer a {
+            color: var(--text-sub);
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: var(--primary-green);
+        }
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .detail-row, .detail-row:nth-child(even) {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .section-title { font-size: 2rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="ko"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Meal Gram - 내 손안의 프리미엄 식단 코치&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- CSS Reset &amp; Variables (색상 디자인 보완) --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>:root {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>/* 로고의 그린-오렌지 그라데이션에서 영감을 받은 색상 팔레트 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--primary-green: #4CAF50; /* 신선한 그린 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--primary-orange: #FF9800; /* 따뜻한 오렌지 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--primary-gradient: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-orange) 100%);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--secondary-green-light: #E8F5E9; /* 연한 그린 배경 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--secondary-orange-light: #FFF3E0; /* 연한 오렌지 배경 */</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text-main: #2E3B4E; /* 어두운 블루-그레이 텍스트 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text-sub: #546E7A; /* 중간 톤 블루-그레이 텍스트 */</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--white: #ffffff;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--bg-color: var(--white); /* 기본 배경은 흰색 */</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--accent-color: #FF5722; /* 강조색 (예: 버튼 호버) */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>* { margin: 0; padding: 0; box-sizing: border-box; }</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Pretendard', sans-serif;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.6;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow-x: hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>a { text-decoration: none; color: inherit; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ul { list-style: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>img { max-width: 100%; display: block; }</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Components --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.container {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 1200px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 0 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: inline-flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 8px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 12px 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 50px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 600;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn-primary {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary-gradient); /* 그라데이션 버튼 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3); /* 그린 계열 그림자 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: none;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn-primary:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn-outline {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: transparent;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 2px solid var(--primary-green); /* 그린 테두리 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn-outline:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--secondary-green-light);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.section-title {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 2.5rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 700;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 1rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.section-desc {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.125rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 600px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto 3rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Header --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>header {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: fixed;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>top: 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>left: 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 100%;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(255, 255, 255, 0.9);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(10px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 1000;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid rgba(0,0,0,0.05);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>nav {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: space-between;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 70px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.logo {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.logo img {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 40px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>object-fit: contain;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.nav-links {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 32px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.nav-links a {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 500;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: color 0.2s;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.nav-links a:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Hero Section --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 160px 0 100px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>/* 그린-오렌지 그라데이션 배경 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: radial-gradient(circle at top right, var(--secondary-orange-light) 0%, transparent 40%),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>radial-gradient(circle at bottom left, var(--secondary-green-light) 0%, transparent 40%);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero h1 {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 3.5rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 800;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.2;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero h1 span {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary-gradient); /* 그라데이션 텍스트 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>-webkit-background-clip: text;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>-webkit-text-fill-color: transparent;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero p {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 700px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-left: auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-right: auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.app-buttons {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 16px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 60px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-image {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 1000px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 8px solid rgba(255,255,255,0.8);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Features Grid --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.features {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 100px 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.feature-grid {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: grid;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(2, 1fr);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 40px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 960px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.feature-card {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 30px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: transform 0.3s ease, box-shadow 0.3s ease;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #eee; /* 가벼운 테두리 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex-direction: column;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: flex-start;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 100%;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.feature-card:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translateY(-10px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-color: var(--primary-green); /* 호버 시 그린 테두리 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.icon-box {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 56px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 56px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--secondary-green-light); /* 연한 그린 배경 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 16px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green); /* 그린 아이콘 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.feature-card h3 {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.feature-card p {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.95rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.5;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Detailed Sections (Zigzag) --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.details {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 100px 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #f9fbfd; /* 아주 연한 배경색 추가 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-row {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 80px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 120px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-row:nth-child(even) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex-direction: row-reverse;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-text {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex: 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-image {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex: 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 24px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.tag {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: inline-block;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 6px 12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--secondary-orange-light); /* 연한 오렌지 배경 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-orange); /* 오렌지 텍스트 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.875rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 600;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 16px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-text h2 {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 2.25rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.3;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.detail-text p {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.125rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.check-list li {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 10px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 500;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.check-list i {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green); /* 그린 체크 아이콘 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- CTA Section --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 100px 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary-gradient); /* 그라데이션 배경 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta h2 {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 2.5rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta p {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>opacity: 0.9;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta .btn {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green); /* 버튼 텍스트를 그린으로 */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 700;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta .btn:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--secondary-green-light);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Footer --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>footer {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 60px 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--white);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.875rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-top: 1px solid #eee;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.biz-info {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-bottom: 20px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #e5e7eb;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.8rem;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.6;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.biz-info strong {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 600;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-main);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>footer a {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-sub);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: color 0.2s;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>footer a:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary-green);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* --- Mobile Responsive --- */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@media (max-width: 768px) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero h1 { font-size: 2.5rem; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.nav-links { display: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.detail-row, .detail-row:nth-child(even) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>flex-direction: column;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>gap: 40px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.section-title { font-size: 2rem; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.feature-grid { grid-template-columns: 1fr; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;nav&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="logo"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;img src="image_0.png" alt="Meal Gram Logo" style="height: 50px;"&gt;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="nav-links"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;a href="#features"&gt;주요기능&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;a href="#details"&gt;전문가 코칭&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;a href="#download"&gt;다운로드&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;a href="https://www.notion.so" target="_blank"&gt;개발일지&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;"&gt;앱 열기&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/nav&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section class="hero"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h1&gt;실패 없는 다이어트,&lt;br&gt;&lt;span&gt;내 손안의 전문가&lt;/span&gt;와 함께&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>복잡한 칼로리 계산, 귀찮은 기록은 이제 그만.&lt;br&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>Meal Gram이 가장 똑똑하게 당신의 식단을 관리해 드립니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="app-buttons"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="btn btn-primary"&gt;&lt;i class="fa-brands fa-apple"&gt;&lt;/i&gt; App Store&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="btn btn-primary"&gt;&lt;i class="fa-brands fa-google-play"&gt;&lt;/i&gt; Google Play&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="hero-image"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;img src="https://placehold.co/1000x600/E8F5E9/4CAF50?text=Meal+Gram+App+Interface+(Green+Theme)" alt="Meal Gram 앱 실행 화면 목업"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="features" class="features"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2 class="section-title"&gt;왜 Meal Gram인가요?&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p class="section-desc"&gt;지속 가능한 건강함을 위해 필요한 모든 기능을 담았습니다.&lt;/p&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="feature-grid"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="feature-card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="icon-box"&gt;&lt;i class="fa-solid fa-camera"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;AI 간편 기록&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;사진 한 장만 찍으세요. 최신 AI가 음식 종류와 양, 영양성분까지 자동으로 분석합니다.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="feature-card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="icon-box"&gt;&lt;i class="fa-solid fa-user-doctor"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;전문가 설계 로직&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;의학/영양학 전문가가 설계한 알고리즘으로 당신에게 딱 맞는 섭취 목표를 제시합니다.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="feature-card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="icon-box"&gt;&lt;i class="fa-solid fa-chart-pie"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;실시간 분석 리포트&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;데이터에 기반한 실시간 피드백으로 오늘 식단의 문제점을 즉시 파악하고 개선하세요.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="feature-card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="icon-box"&gt;&lt;i class="fa-solid fa-compass"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;스마트 방향 제시&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;기록이 쌓일수록 방향이 명확해집니다. 목표에서 너무 벗어나면 방향을 수정해줍니다!&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="details" class="details"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="tag"&gt;Smart Recording&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;귀찮은 기록은 이제 그만&lt;br&gt;찰칵, 찍으면 끝!&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>매끼 검색하고 입력하는 번거로움 때문에 기록을 포기하셨나요?</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>Meal Gram의 '푸드 렌즈'는 사진 속 음식을 인식하여</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>복잡한 영양 정보를 1초 만에 기록해줍니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ul class="check-list"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 99% 정확도의 이미지 인식&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 자연어 처리 텍스트 기록 지원&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-image"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;img src="https://placehold.co/600x450/FFF3E0/FF9800?text=AI+Food+Lens+(Orange+Theme)" alt="음식 사진 촬영 기능"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);"&gt;Expert Logic&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;감은 믿지 마세요&lt;br&gt;과학적인 데이터를 믿으세요&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>"무조건 적게 먹으면 빠진다?" 틀렸습니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>당신의 신체 정보와 활동량, 목표에 맞춰</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>의학적 근거에 기반한 가장 이상적인 섭취량을 알려드립니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ul class="check-list"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 현직 의사 및 코치진 공동 개발&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 활동량에 따른 목표 섭취량 자동 보정&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-image"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Data+Driven+Feedback+(Green+Theme)" alt="데이터 분석 그래프"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="tag"&gt;Total Care&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;식단부터 운동까지&lt;br&gt;하나의 흐름으로 관리&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>먹은 만큼 움직이고, 움직인 만큼 먹습니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>식단과 운동 데이터를 통합 관리하여</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>건강한 에너지 균형을 맞춰드립니다.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ul class="check-list"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 섭취 칼로리 vs 소모 칼로리 비교&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 운동 수행 능력에 따른 영양 가이드&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-image"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;img src="https://placehold.co/600x450/FFF3E0/FF9800?text=Fitness+Integration+(Orange+Theme)" alt="운동 기록 연동 화면"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="detail-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);"&gt;Smart Direction&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;기록이 쌓일 수록,&lt;br&gt;방향이 명확해집니다&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>목표에서 너무 벗어난다면, Meal Gram이 방향을 수정해줍니다!&lt;br&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>데이터가 쌓일수록 나에게 최적화된 가이드를 받아보세요.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ul class="check-list"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 장기 데이터 기반 목표 재설정&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;i class="fa-solid fa-check"&gt;&lt;/i&gt; 맞춤형 피드백 제공&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="detail-image"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Smart+Direction+Guide+(Green+Theme)" alt="스마트 방향 수정 및 가이드 화면"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;section id="download" class="cta"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;건강한 변화, 지금 시작하세요&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;Meal Gram과 함께라면 다이어트가 더 이상 힘들지 않습니다.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;a href="#" class="btn" style="background: white; color: var(--primary-green); padding: 16px 32px; font-size: 1.1rem;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;i class="fa-solid fa-download"&gt;&lt;/i&gt; 무료로 다운로드 받기</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;footer&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="biz-info"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;(주)닥터스핏&lt;/strong&gt; | 대표자: 서재덕 | 개인정보보호책임자: 서재덕&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;사업자등록번호: 718-05-02481 | 통신판매업신고: 2023-인천남동구-2258&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;주소: 서울시 양천구 목동서로2길 22, 102동 804호 | 대표전화: 010-2706-0784 | 이메일: stcarry2@gmail.com&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p style="margin-bottom: 10px; font-weight: 600; color: var(--text-main);"&gt;Meal Gram&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;Copyright © 2025 Meal Gram Inc. All rights reserved.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="#"&gt;이용약관&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="#"&gt;개인정보처리방침&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="#"&gt;고객센터&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="https://www.notion.so" target="_blank"&gt;개발일지&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="image_0.png" alt="Meal Gram Logo" style="height: 50px;"> 
+                </div>
+                <div class="nav-links">
+                    <a href="#features">주요기능</a>
+                    <a href="#details">전문가 코칭</a>
+                    <a href="#download">다운로드</a>
+                    <a href="https://www.notion.so" target="_blank">개발일지</a>
+                </div>
+                <div class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">앱 열기</div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>실패 없는 다이어트,<br><span>내 손안의 전문가</span>와 함께</h1>
+            <p>
+                복잡한 칼로리 계산, 귀찮은 기록은 이제 그만.<br>
+                Meal Gram이 가장 똑똑하게 당신의 식단을 관리해 드립니다.
+            </p>
+            <div class="app-buttons">
+                <a href="#" class="btn btn-primary"><i class="fa-brands fa-apple"></i> App Store</a>
+                <a href="#" class="btn btn-primary"><i class="fa-brands fa-google-play"></i> Google Play</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://placehold.co/1000x600/E8F5E9/4CAF50?text=Meal+Gram+App+Interface+(Green+Theme)" alt="Meal Gram 앱 실행 화면 목업">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">왜 Meal Gram인가요?</h2>
+            <p class="section-desc">지속 가능한 건강함을 위해 필요한 모든 기능을 담았습니다.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-camera"></i></div>
+                    <h3>AI 간편 기록</h3>
+                    <p>사진 한 장만 찍으세요. 최신 AI가 음식 종류와 양, 영양성분까지 자동으로 분석합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-user-doctor"></i></div>
+                    <h3>전문가 설계 로직</h3>
+                    <p>의학/영양학 전문가가 설계한 알고리즘으로 당신에게 딱 맞는 섭취 목표를 제시합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+                    <h3>실시간 분석 리포트</h3>
+                    <p>데이터에 기반한 실시간 피드백으로 오늘 식단의 문제점을 즉시 파악하고 개선하세요.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box"><i class="fa-solid fa-compass"></i></div>
+                    <h3>스마트 방향 제시</h3>
+                    <p>기록이 쌓일수록 방향이 명확해집니다. 목표에서 너무 벗어나면 방향을 수정해줍니다!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="details" class="details">
+        <div class="container">
+            
+            <div class="detail-row">
+                <div class="detail-text">
+                    <span class="tag">Smart Recording</span>
+                    <h2>귀찮은 기록은 이제 그만<br>찰칵, 찍으면 끝!</h2>
+                    <p>
+                        매끼 검색하고 입력하는 번거로움 때문에 기록을 포기하셨나요?
+                        Meal Gram의 '푸드 렌즈'는 사진 속 음식을 인식하여
+                        복잡한 영양 정보를 1초 만에 기록해줍니다.
+                    </p>
+                    <ul class="check-list">
+                        <li><i class="fa-solid fa-check"></i> 99% 정확도의 이미지 인식</li>
+                        <li><i class="fa-solid fa-check"></i> 자연어 처리 텍스트 기록 지원</li>
+                    </ul>
+                </div>
+                <div class="detail-image">
+                    <img src="https://placehold.co/600x450/FFF3E0/FF9800?text=AI+Food+Lens+(Orange+Theme)" alt="음식 사진 촬영 기능">
+                </div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-text">
+                    <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Expert Logic</span>
+                    <h2>감은 믿지 마세요<br>과학적인 데이터를 믿으세요</h2>
+                    <p>
+                        "무조건 적게 먹으면 빠진다?" 틀렸습니다.
+                        당신의 신체 정보와 활동량, 목표에 맞춰
+                        의학적 근거에 기반한 가장 이상적인 섭취량을 알려드립니다.
+                    </p>
+                    <ul class="check-list">
+                        <li><i class="fa-solid fa-check"></i> 현직 의사 및 코치진 공동 개발</li>
+                        <li><i class="fa-solid fa-check"></i> 활동량에 따른 목표 섭취량 자동 보정</li>
+                    </ul>
+                </div>
+                <div class="detail-image">
+                    <img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Data+Driven+Feedback+(Green+Theme)" alt="데이터 분석 그래프">
+                </div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-text">
+                    <span class="tag">Total Care</span>
+                    <h2>식단부터 운동까지<br>하나의 흐름으로 관리</h2>
+                    <p>
+                        먹은 만큼 움직이고, 움직인 만큼 먹습니다.
+                        식단과 운동 데이터를 통합 관리하여
+                        건강한 에너지 균형을 맞춰드립니다.
+                    </p>
+                    <ul class="check-list">
+                        <li><i class="fa-solid fa-check"></i> 섭취 칼로리 vs 소모 칼로리 비교</li>
+                        <li><i class="fa-solid fa-check"></i> 운동 수행 능력에 따른 영양 가이드</li>
+                    </ul>
+                </div>
+                <div class="detail-image">
+                    <img src="https://placehold.co/600x450/FFF3E0/FF9800?text=Fitness+Integration+(Orange+Theme)" alt="운동 기록 연동 화면">
+                </div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-text">
+                    <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Smart Direction</span>
+                    <h2>기록이 쌓일 수록,<br>방향이 명확해집니다</h2>
+                    <p>
+                        목표에서 너무 벗어난다면, Meal Gram이 방향을 수정해줍니다!<br>
+                        데이터가 쌓일수록 나에게 최적화된 가이드를 받아보세요.
+                    </p>
+                    <ul class="check-list">
+                        <li><i class="fa-solid fa-check"></i> 장기 데이터 기반 목표 재설정</li>
+                        <li><i class="fa-solid fa-check"></i> 맞춤형 피드백 제공</li>
+                    </ul>
+                </div>
+                <div class="detail-image">
+                    <img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Smart+Direction+Guide+(Green+Theme)" alt="스마트 방향 수정 및 가이드 화면">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="download" class="cta">
+        <div class="container">
+            <h2>건강한 변화, 지금 시작하세요</h2>
+            <p>Meal Gram과 함께라면 다이어트가 더 이상 힘들지 않습니다.</p>
+            <a href="#" class="btn" style="background: white; color: var(--primary-green); padding: 16px 32px; font-size: 1.1rem;">
+                <i class="fa-solid fa-download"></i> 무료로 다운로드 받기
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="biz-info">
+                <p><strong>(주)닥터스핏</strong> | 대표자: 서재덕 | 개인정보보호책임자: 서재덕</p>
+                <p>사업자등록번호: 718-05-02481 | 통신판매업신고: 2023-인천남동구-2258</p>
+                <p>주소: 서울시 양천구 목동서로2길 22, 102동 804호 | 대표전화: 010-2706-0784 | 이메일: stcarry2@gmail.com</p>
+            </div>
+
+            <p style="margin-bottom: 10px; font-weight: 600; color: var(--text-main);">Meal Gram</p>
+            <p>Copyright © 2025 Meal Gram Inc. All rights reserved.</p>
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">고객센터</a>
+                <a href="https://www.notion.so" target="_blank">개발일지</a>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
