@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <style>
+<style>
         /* --- CSS Reset & Variables (색상 디자인 보완) --- */
         :root {
             /* 로고의 그린-오렌지 그라데이션에서 영감을 받은 색상 팔레트 */
@@ -334,6 +334,7 @@
             border: 8px solid rgba(255,255,255,0.8);
         }
 
+        /* 슬라이더(Carousel) 구조 스타일 */
         .graphic-item {
             position: absolute;
             top: 0;
@@ -342,21 +343,65 @@
             height: 100%;
             opacity: 0;
             transition: opacity 0.5s ease-in-out, transform 0.5s ease;
-            transform: scale(1.05); /* 살짝 확대된 상태에서 시작 */
+            transform: scale(1.05);
+            pointer-events: none; /* 비활성 상태일 때 클릭 방지 */
+            display: flex;
+            flex-direction: column;
         }
 
         .graphic-item.active {
             opacity: 1;
-            transform: scale(1); /* 활성화되면 원래 크기로 */
+            transform: scale(1);
             z-index: 1;
+            pointer-events: auto; /* 활성화되면 클릭 가능 */
         }
 
-        .graphic-item img {
+        .slider-track {
+            display: flex;
             width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* 부드러운 슬라이딩 */
+        }
+
+        .slide-image {
+            min-width: 100%; /* 한 번에 이미지 하나만 보이게 */
             height: 100%;
             object-fit: cover;
         }
 
+        /* 하단 닷 네비게이션 */
+        .slider-pagination {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .slider-dot.active {
+            background: var(--primary-green);
+            transform: scale(1.2);
+        }
 
         /* --- CTA Section --- */
         .cta {
@@ -527,14 +572,14 @@
         </div>
     </section>
 
-    <!-- 인터랙티브 스티키 섹션 (새로 개편됨) -->
+    <!-- 인터랙티브 스티키 섹션 (새로 개편됨: 슬라이더 기능 추가) -->
     <section id="details" class="interactive-section">
         <div class="container sticky-container">
             
             <!-- 왼쪽: 스크롤 텍스트 영역 -->
             <div class="scroll-content">
                 
-                <!-- Step 1 -->
+                <!-- Step 1: AI 기록 -->
                 <div class="step-block active" data-step="1">
                     <span class="tag">Smart Recording</span>
                     <h2>귀찮은 기록은 이제 그만<br>찰칵, 찍으면 끝!</h2>
@@ -549,7 +594,7 @@
                     </ul>
                 </div>
 
-                <!-- Step 2 -->
+                <!-- Step 2: 전문가 로직 -->
                 <div class="step-block" data-step="2">
                     <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Expert Logic</span>
                     <h2>감은 믿지 마세요<br>과학적인 데이터를 믿으세요</h2>
@@ -564,7 +609,7 @@
                     </ul>
                 </div>
 
-                <!-- Step 3 -->
+                <!-- Step 3: 통합 관리 -->
                 <div class="step-block" data-step="3">
                     <span class="tag">Total Care</span>
                     <h2>식단부터 운동까지<br>하나의 흐름으로 관리</h2>
@@ -579,7 +624,7 @@
                     </ul>
                 </div>
 
-                <!-- Step 4 -->
+                <!-- Step 4: 방향 제시 -->
                 <div class="step-block" data-step="4">
                     <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Smart Direction</span>
                     <h2>기록이 쌓일 수록,<br>방향이 명확해집니다</h2>
@@ -595,24 +640,59 @@
 
             </div>
 
-            <!-- 오른쪽: 고정 이미지 영역 (Sticky) -->
+            <!-- 오른쪽: 고정 이미지 영역 (Sticky Slider) -->
             <div class="sticky-graphic">
-                <!-- 이미지 1 -->
+                
+                <!-- Slider 1: AI Camera -->
                 <div class="graphic-item active" id="img-1">
-                    <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=AI+Camera+UI" alt="AI 카메라 화면">
+                    <div class="slider-track">
+                        <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=AI+Camera+Shot+1" class="slide-image" alt="AI 카메라 촬영 1">
+                        <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=AI+Result+Analysis" class="slide-image" alt="AI 분석 결과">
+                        <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Text+Input+Mode" class="slide-image" alt="텍스트 입력 모드">
+                    </div>
+                    <div class="slider-pagination">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                        <div class="slider-dot"></div>
+                    </div>
                 </div>
-                <!-- 이미지 2 -->
+
+                <!-- Slider 2: Expert Logic -->
                 <div class="graphic-item" id="img-2">
-                    <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Expert+Data+Graph" alt="데이터 분석 그래프">
+                    <div class="slider-track">
+                        <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Expert+Graph+Main" class="slide-image" alt="전문가 그래프 메인">
+                        <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Personalized+Plan" class="slide-image" alt="개인화 플랜">
+                    </div>
+                    <div class="slider-pagination">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                    </div>
                 </div>
-                <!-- 이미지 3 -->
+
+                <!-- Slider 3: Total Care -->
                 <div class="graphic-item" id="img-3">
-                    <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Fitness+Balance+UI" alt="운동 식단 통합 화면">
+                    <div class="slider-track">
+                        <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Fitness+Integration" class="slide-image" alt="피트니스 연동">
+                        <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Calorie+Balance" class="slide-image" alt="칼로리 밸런스">
+                    </div>
+                    <div class="slider-pagination">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                    </div>
                 </div>
-                <!-- 이미지 4 -->
+
+                <!-- Slider 4: Smart Direction -->
                 <div class="graphic-item" id="img-4">
-                    <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Smart+Direction+Feedback" alt="스마트 피드백 화면">
+                    <div class="slider-track">
+                        <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Direction+Change" class="slide-image" alt="방향 수정 알림">
+                        <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Weekly+Review" class="slide-image" alt="주간 리뷰">
+                    </div>
+                    <div class="slider-pagination">
+                        <div class="slider-dot active"></div>
+                        <div class="slider-dot"></div>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -646,27 +726,27 @@
             </div>
         </div>
     </footer>
-
-    <!-- 스크롤 인터랙션 스크립트 -->
+   <!-- 스크롤 & 슬라이더 인터랙션 스크립트 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. 스크롤 인터랙션 (Sticky Scroll)
             const steps = document.querySelectorAll('.step-block');
             const graphics = document.querySelectorAll('.graphic-item');
 
             const observerOptions = {
                 root: null,
-                rootMargin: '-40% 0px -40% 0px', // 화면 중앙 20% 영역에 들어올 때 트리거
+                rootMargin: '-40% 0px -40% 0px', // 화면 중앙 영역 트리거
                 threshold: 0
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // 1. 텍스트 활성화
+                        // 텍스트 활성화
                         steps.forEach(s => s.classList.remove('active'));
                         entry.target.classList.add('active');
 
-                        // 2. 이미지 교체
+                        // 해당 이미지 그룹 활성화
                         const stepIndex = entry.target.getAttribute('data-step');
                         graphics.forEach(g => {
                             g.classList.remove('active');
@@ -679,6 +759,29 @@
             }, observerOptions);
 
             steps.forEach(step => observer.observe(step));
+
+            // 2. 내부 이미지 슬라이더 (Carousel)
+            const graphicItems = document.querySelectorAll('.graphic-item');
+            
+            graphicItems.forEach(item => {
+                const track = item.querySelector('.slider-track');
+                if(!track) return;
+                
+                const dots = item.querySelectorAll('.slider-dot');
+                
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation(); // 상위 이벤트 전파 방지
+                        
+                        // 닷 활성화 상태 변경
+                        dots.forEach(d => d.classList.remove('active'));
+                        dot.classList.add('active');
+                        
+                        // 슬라이드 이동 (가로축 이동)
+                        track.style.transform = `translateX(-${index * 100}%)`;
+                    });
+                });
+            });
         });
     </script>
 
