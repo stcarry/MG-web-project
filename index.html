@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
+        <style>
         /* --- CSS Reset & Variables (색상 디자인 보완) --- */
         :root {
             /* 로고의 그린-오렌지 그라데이션에서 영감을 받은 색상 팔레트 */
@@ -252,53 +252,57 @@
             line-height: 1.5;
         }
 
-        /* --- Detailed Sections (Zigzag) --- */
-        .details {
+        /* --- Sticky Interactive Section (New) --- */
+        .interactive-section {
             padding: 100px 0;
-            background-color: #f9fbfd; /* 아주 연한 배경색 추가 */
+            background-color: #f9fbfd;
         }
 
-        .detail-row {
+        .sticky-container {
             display: flex;
-            align-items: center;
-            gap: 80px;
-            margin-bottom: 120px;
+            align-items: flex-start; /* 필수: sticky 요소가 멈추려면 상단 정렬 필요 */
+            justify-content: space-between;
+            position: relative;
         }
 
-        .detail-row:nth-child(even) {
-            flex-direction: row-reverse;
+        /* 왼쪽: 스크롤되는 텍스트 영역 */
+        .scroll-content {
+            width: 45%;
+            padding-bottom: 200px; /* 마지막 요소 스크롤 여유 */
         }
 
-        .detail-text {
-            flex: 1;
+        .step-block {
+            min-height: 80vh; /* 각 섹션이 화면을 충분히 차지하도록 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0.3; /* 기본적으로 흐릿하게 */
+            transition: opacity 0.5s ease;
         }
 
-        .detail-image {
-            flex: 1;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        .step-block.active {
+            opacity: 1; /* 활성화되면 선명하게 */
         }
 
         .tag {
             display: inline-block;
             padding: 6px 12px;
-            background: var(--secondary-orange-light); /* 연한 오렌지 배경 */
-            color: var(--primary-orange); /* 오렌지 텍스트 */
+            background: var(--secondary-orange-light);
+            color: var(--primary-orange);
             border-radius: 20px;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 16px;
         }
 
-        .detail-text h2 {
-            font-size: 2.25rem;
+        .step-block h2 {
+            font-size: 2.5rem;
             margin-bottom: 20px;
             line-height: 1.3;
             color: var(--text-main);
         }
 
-        .detail-text p {
+        .step-block p {
             font-size: 1.125rem;
             color: var(--text-sub);
             margin-bottom: 30px;
@@ -314,8 +318,45 @@
         }
 
         .check-list i {
-            color: var(--primary-green); /* 그린 체크 아이콘 */
+            color: var(--primary-green);
         }
+
+        /* 오른쪽: 고정된 이미지 영역 */
+        .sticky-graphic {
+            width: 50%;
+            height: 600px; /* 고정된 프레임 높이 */
+            position: sticky;
+            top: calc(50% - 300px); /* 화면 중앙에 위치 */
+            border-radius: 30px;
+            overflow: hidden;
+            background: var(--white);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border: 8px solid rgba(255,255,255,0.8);
+        }
+
+        .graphic-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.05); /* 살짝 확대된 상태에서 시작 */
+        }
+
+        .graphic-item.active {
+            opacity: 1;
+            transform: scale(1); /* 활성화되면 원래 크기로 */
+            z-index: 1;
+        }
+
+        .graphic-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
 
         /* --- CTA Section --- */
         .cta {
@@ -382,15 +423,40 @@
         }
 
         /* --- Mobile Responsive --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .detail-row, .detail-row:nth-child(even) {
-                flex-direction: column;
-                gap: 40px;
+        @media (max-width: 900px) {
+            .sticky-container {
+                flex-direction: column-reverse; /* 모바일: 이미지가 위로 가거나 아래로 가게 조정 */
             }
-            .section-title { font-size: 2rem; }
+            
+            .scroll-content {
+                width: 100%;
+                padding-bottom: 50px;
+            }
+
+            .step-block {
+                min-height: auto;
+                margin-bottom: 60px;
+                opacity: 1; /* 모바일에서는 항상 잘 보이게 */
+            }
+
+            .sticky-graphic {
+                width: 100%;
+                height: 400px;
+                position: relative; /* 스티키 해제 */
+                top: 0;
+                margin-bottom: 40px;
+            }
+            
+            .graphic-item {
+                display: none; /* JS 없이 기본 이미지만 보여주거나, 모바일용 슬라이더로 대체 가능 */
+            }
+            .graphic-item.active {
+                display: block;
+            }
+            
+            .nav-links { display: none; }
             .feature-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -400,15 +466,14 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <!-- 로고 이미지 적용 (실패 시 텍스트 표시 등은 필요에 따라 추가) -->
+                    <!-- 로고 이미지 -->
                     <img src="logo.png" alt="Meal Gram Logo" style="height: 50px;">
                 </div>
                 <div class="nav-links">
                     <a href="#features">주요기능</a>
                     <a href="#details">전문가 코칭</a>
                     <a href="#download">다운로드</a>
-                    <!-- 1. 상단 메뉴 링크 -->
-                    <a href="https://www.notion.so/2d2503c7cc1e80b594c2c26d59db0657?source=copy_link" target="_blank">개발일지</a> 
+                    <a href="https://www.notion.so" target="_blank">개발일지</a>
                 </div>
                 <div class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">앱 열기</div>
             </nav>
@@ -462,11 +527,15 @@
         </div>
     </section>
 
-    <section id="details" class="details">
-        <div class="container">
+    <!-- 인터랙티브 스티키 섹션 (새로 개편됨) -->
+    <section id="details" class="interactive-section">
+        <div class="container sticky-container">
             
-            <div class="detail-row">
-                <div class="detail-text">
+            <!-- 왼쪽: 스크롤 텍스트 영역 -->
+            <div class="scroll-content">
+                
+                <!-- Step 1 -->
+                <div class="step-block active" data-step="1">
                     <span class="tag">Smart Recording</span>
                     <h2>귀찮은 기록은 이제 그만<br>찰칵, 찍으면 끝!</h2>
                     <p>
@@ -479,13 +548,9 @@
                         <li><i class="fa-solid fa-check"></i> 자연어 처리 텍스트 기록 지원</li>
                     </ul>
                 </div>
-                <div class="detail-image">
-                    <img src="https://placehold.co/600x450/FFF3E0/FF9800?text=AI+Food+Lens+(Orange+Theme)" alt="음식 사진 촬영 기능">
-                </div>
-            </div>
 
-            <div class="detail-row">
-                <div class="detail-text">
+                <!-- Step 2 -->
+                <div class="step-block" data-step="2">
                     <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Expert Logic</span>
                     <h2>감은 믿지 마세요<br>과학적인 데이터를 믿으세요</h2>
                     <p>
@@ -498,13 +563,9 @@
                         <li><i class="fa-solid fa-check"></i> 활동량에 따른 목표 섭취량 자동 보정</li>
                     </ul>
                 </div>
-                <div class="detail-image">
-                    <img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Data+Driven+Feedback+(Green+Theme)" alt="데이터 분석 그래프">
-                </div>
-            </div>
 
-            <div class="detail-row">
-                <div class="detail-text">
+                <!-- Step 3 -->
+                <div class="step-block" data-step="3">
                     <span class="tag">Total Care</span>
                     <h2>식단부터 운동까지<br>하나의 흐름으로 관리</h2>
                     <p>
@@ -517,13 +578,9 @@
                         <li><i class="fa-solid fa-check"></i> 운동 수행 능력에 따른 영양 가이드</li>
                     </ul>
                 </div>
-                <div class="detail-image">
-                    <img src="https://placehold.co/600x450/FFF3E0/FF9800?text=Fitness+Integration+(Orange+Theme)" alt="운동 기록 연동 화면">
-                </div>
-            </div>
 
-            <div class="detail-row">
-                <div class="detail-text">
+                <!-- Step 4 -->
+                <div class="step-block" data-step="4">
                     <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Smart Direction</span>
                     <h2>기록이 쌓일 수록,<br>방향이 명확해집니다</h2>
                     <p>
@@ -535,8 +592,26 @@
                         <li><i class="fa-solid fa-check"></i> 맞춤형 피드백 제공</li>
                     </ul>
                 </div>
-                <div class="detail-image">
-                    <img src="https://placehold.co/600x450/E8F5E9/4CAF50?text=Smart+Direction+Guide+(Green+Theme)" alt="스마트 방향 수정 및 가이드 화면">
+
+            </div>
+
+            <!-- 오른쪽: 고정 이미지 영역 (Sticky) -->
+            <div class="sticky-graphic">
+                <!-- 이미지 1 -->
+                <div class="graphic-item active" id="img-1">
+                    <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=AI+Camera+UI" alt="AI 카메라 화면">
+                </div>
+                <!-- 이미지 2 -->
+                <div class="graphic-item" id="img-2">
+                    <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Expert+Data+Graph" alt="데이터 분석 그래프">
+                </div>
+                <!-- 이미지 3 -->
+                <div class="graphic-item" id="img-3">
+                    <img src="https://placehold.co/600x800/FFF3E0/FF9800?text=Fitness+Balance+UI" alt="운동 식단 통합 화면">
+                </div>
+                <!-- 이미지 4 -->
+                <div class="graphic-item" id="img-4">
+                    <img src="https://placehold.co/600x800/E8F5E9/4CAF50?text=Smart+Direction+Feedback" alt="스마트 피드백 화면">
                 </div>
             </div>
 
@@ -564,14 +639,48 @@
             <p style="margin-bottom: 10px; font-weight: 600; color: var(--text-main);">Meal Gram</p>
             <p>Copyright © 2025 Meal Gram Inc. All rights reserved.</p>
             <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
-                <a href="https://www.notion.so/2c3503c7cc1e809898bbe0ef4040d07e?source=copy_link" target="_blank">이용약관</a>
-                <a href="https://www.notion.so/2c3503c7cc1e801e9dfdd61b35803a6d?source=copy_link" target="_blank">개인정보처리방침</a>
-                <a href="stcarry@naver.com" target="_blank">고객센터</a>
-                <!-- 2. 하단 푸터 링크 -->
-                <a href="https://www.notion.so/2d2503c7cc1e80b594c2c26d59db0657?source=copy_link" target="_blank">개발일지</a> 
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">고객센터</a>
+                <a href="https://www.notion.so" target="_blank">개발일지</a>
             </div>
         </div>
     </footer>
+
+    <!-- 스크롤 인터랙션 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const steps = document.querySelectorAll('.step-block');
+            const graphics = document.querySelectorAll('.graphic-item');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // 화면 중앙 20% 영역에 들어올 때 트리거
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 1. 텍스트 활성화
+                        steps.forEach(s => s.classList.remove('active'));
+                        entry.target.classList.add('active');
+
+                        // 2. 이미지 교체
+                        const stepIndex = entry.target.getAttribute('data-step');
+                        graphics.forEach(g => {
+                            g.classList.remove('active');
+                            if(g.id === `img-${stepIndex}`) {
+                                g.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            steps.forEach(step => observer.observe(step));
+        });
+    </script>
 
 </body>
 </html>
