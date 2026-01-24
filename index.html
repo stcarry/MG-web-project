@@ -5,30 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Gram - 내 손안의 프리미엄 식단 코치</title>
 
-    <link rel="icon" href="logo.png"> <!-- 파비콘 경로 수정 -->
+    <link rel="icon" href="logo.png"> <!-- 사용자 설정 링크 유지 -->
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- CSS Reset & Variables (색상 디자인 보완) --- */
+        /* --- CSS Reset & Variables --- */
         :root {
-            /* 로고의 그린-오렌지 그라데이션에서 영감을 받은 색상 팔레트 */
-            --primary-green: #4CAF50; /* 신선한 그린 */
-            --primary-orange: #FF9800; /* 따뜻한 오렌지 */
+            --primary-green: #4CAF50;
+            --primary-orange: #FF9800;
             --primary-gradient: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-orange) 100%);
             
-            --secondary-green-light: #E8F5E9; /* 연한 그린 배경 */
-            --secondary-orange-light: #FFF3E0; /* 연한 오렌지 배경 */
+            --secondary-green-light: #E8F5E9;
+            --secondary-orange-light: #FFF3E0;
             
-            --text-main: #2E3B4E; /* 어두운 블루-그레이 텍스트 */
-            --text-sub: #546E7A; /* 중간 톤 블루-그레이 텍스트 */
+            --text-main: #2E3B4E;
+            --text-sub: #546E7A;
             
             --white: #ffffff;
-            --bg-color: var(--white); /* 기본 배경은 흰색 */
+            --bg-color: var(--white);
 
-            --accent-color: #FF5722; /* 강조색 (예: 버튼 호버) */
+            --accent-color: #FF5722;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,9 +64,9 @@
         }
 
         .btn-primary {
-            background: var(--primary-gradient); /* 그라데이션 버튼 */
+            background: var(--primary-gradient);
             color: var(--white);
-            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3); /* 그린 계열 그림자 */
+            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3);
             border: none;
         }
 
@@ -78,7 +77,7 @@
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--primary-green); /* 그린 테두리 */
+            border: 2px solid var(--primary-green);
             color: var(--primary-green);
         }
 
@@ -150,7 +149,6 @@
         /* --- Hero Section --- */
         .hero {
             padding: 160px 0 100px;
-            /* 그린-오렌지 그라데이션 배경 */
             background: radial-gradient(circle at top right, var(--secondary-orange-light) 0%, transparent 40%),
                         radial-gradient(circle at bottom left, var(--secondary-green-light) 0%, transparent 40%);
             text-align: center;
@@ -165,7 +163,7 @@
         }
 
         .hero h1 span {
-            background: var(--primary-gradient); /* 그라데이션 텍스트 */
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -188,11 +186,15 @@
 
         .hero-image {
             max-width: 1000px;
+            width: 100%; /* 반응형 너비 */
             margin: 0 auto;
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             border: 8px solid rgba(255,255,255,0.8);
+            background-color: #000;
+            /* [수정] 16:9 비율 고정 (반응형 대응) */
+            aspect-ratio: 16 / 9;
         }
 
         /* --- Features Grid --- */
@@ -214,7 +216,7 @@
             border-radius: 24px;
             background: var(--white);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #eee; /* 가벼운 테두리 */
+            border: 1px solid #eee;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -224,19 +226,19 @@
         .feature-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-            border-color: var(--primary-green); /* 호버 시 그린 테두리 */
+            border-color: var(--primary-green);
         }
 
         .icon-box {
             width: 56px;
             height: 56px;
-            background: var(--secondary-green-light); /* 연한 그린 배경 */
+            background: var(--secondary-green-light);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: var(--primary-green); /* 그린 아이콘 */
+            color: var(--primary-green);
             margin-bottom: 20px;
         }
 
@@ -252,7 +254,7 @@
             line-height: 1.5;
         }
 
-        /* --- Sticky Interactive Section (New) --- */
+        /* --- Sticky Interactive Section --- */
         .interactive-section {
             padding: 100px 0;
             background-color: #f9fbfd;
@@ -260,7 +262,7 @@
 
         .sticky-container {
             display: flex;
-            align-items: flex-start; /* 필수: sticky 요소가 멈추려면 상단 정렬 필요 */
+            align-items: flex-start;
             justify-content: space-between;
             position: relative;
         }
@@ -268,20 +270,20 @@
         /* 왼쪽: 스크롤되는 텍스트 영역 */
         .scroll-content {
             width: 45%;
-            padding-bottom: 200px; /* 마지막 요소 스크롤 여유 */
+            padding-bottom: 200px;
         }
 
         .step-block {
-            min-height: 80vh; /* 각 섹션이 화면을 충분히 차지하도록 */
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            opacity: 0.3; /* 기본적으로 흐릿하게 */
+            opacity: 0.3;
             transition: opacity 0.5s ease;
         }
 
         .step-block.active {
-            opacity: 1; /* 활성화되면 선명하게 */
+            opacity: 1;
         }
 
         .tag {
@@ -324,9 +326,11 @@
         /* 오른쪽: 고정된 이미지 영역 */
         .sticky-graphic {
             width: 50%;
-            height: 600px; /* 고정된 프레임 높이 */
+            /* [수정] 높이 고정 제거 및 4:5 비율 적용 */
+            aspect-ratio: 4 / 5;
+            
             position: sticky;
-            top: calc(50% - 300px); /* 화면 중앙에 위치 */
+            top: 15vh; /* 화면 중앙 정렬을 위한 위치값 조정 */
             border-radius: 30px;
             overflow: hidden;
             background: var(--white);
@@ -344,7 +348,7 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out, transform 0.5s ease;
             transform: scale(1.05);
-            pointer-events: none; /* 비활성 상태일 때 클릭 방지 */
+            pointer-events: none;
             display: flex;
             flex-direction: column;
         }
@@ -353,18 +357,18 @@
             opacity: 1;
             transform: scale(1);
             z-index: 1;
-            pointer-events: auto; /* 활성화되면 클릭 가능 */
+            pointer-events: auto;
         }
 
         .slider-track {
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* 부드러운 슬라이딩 */
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .slide-image {
-            min-width: 100%; /* 한 번에 이미지 하나만 보이게 */
+            min-width: 100%;
             height: 100%;
             object-fit: cover;
         }
@@ -394,7 +398,7 @@
             transition: all 0.3s ease;
         }
 
-        .slider-dot.hover {
+        .slider-dot:hover {
             background: rgba(0, 0, 0, 0.4);
         }
 
@@ -406,7 +410,7 @@
         /* --- CTA Section --- */
         .cta {
             padding: 100px 0;
-            background: var(--primary-gradient); /* 그라데이션 배경 */
+            background: var(--primary-gradient);
             color: var(--white);
             text-align: center;
         }
@@ -426,7 +430,7 @@
         
         .cta .btn {
             background: var(--white);
-            color: var(--primary-green); /* 버튼 텍스트를 그린으로 */
+            color: var(--primary-green);
             font-weight: 700;
         }
         
@@ -470,7 +474,7 @@
         /* --- Mobile Responsive --- */
         @media (max-width: 900px) {
             .sticky-container {
-                flex-direction: column-reverse; /* 모바일: 이미지가 위로 가거나 아래로 가게 조정 */
+                flex-direction: column-reverse;
             }
             
             .scroll-content {
@@ -481,19 +485,20 @@
             .step-block {
                 min-height: auto;
                 margin-bottom: 60px;
-                opacity: 1; /* 모바일에서는 항상 잘 보이게 */
+                opacity: 1;
             }
 
             .sticky-graphic {
                 width: 100%;
-                height: 400px;
-                position: relative; /* 스티키 해제 */
+                height: auto;
+                aspect-ratio: 4 / 5; /* 모바일에서도 비율 유지 */
+                position: relative;
                 top: 0;
                 margin-bottom: 40px;
             }
             
             .graphic-item {
-                display: none; /* JS 없이 기본 이미지만 보여주거나, 모바일용 슬라이더로 대체 가능 */
+                display: none;
             }
             .graphic-item.active {
                 display: block;
@@ -511,15 +516,16 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <!-- 로고 이미지 경로 수정 -->
+                    <!-- 사용자 설정 링크 유지 -->
                     <img src="logo.png" alt="Meal Gram Logo" style="height: 50px;">
                 </div>
                 <div class="nav-links">
                     <a href="#features">주요기능</a>
                     <a href="#details">전문가 코칭</a>
+                    <a href="#download">다운로드</a>
                     <a href="https://www.notion.so" target="_blank">개발일지</a>
                 </div>
-                <div class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">앱 열기</div>
+                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem; text-decoration: none;">앱 열기</a>
             </nav>
         </div>
     </header>
@@ -532,16 +538,19 @@
                 Meal Gram이 가장 똑똑하게 당신의 식단을 관리해 드립니다.
             </p>
             <div class="app-buttons">
-                <!-- [수정] 상단 App Store / Google Play 링크 입력 위치 -->
-                <a href="https://apps.apple.com/us/app/mealgram/id6756771849" target="_blank" class="btn btn-primary">
+                <a href="https://apps.apple.com/app/id123456789" target="_blank" class="btn btn-primary">
                     <i class="fa-brands fa-apple"></i> App Store
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.drsfit.mealgram" target="_blank" class="btn btn-primary">
+                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn btn-primary">
                     <i class="fa-brands fa-google-play"></i> Google Play
                 </a>
             </div>
             <div class="hero-image">
-                <img src="https://placehold.co/1000x600/E8F5E9/4CAF50?text=Meal+Gram+App+Interface+(Green+Theme)" alt="Meal Gram 앱 실행 화면 목업">
+                <!-- 사용자 설정 영상 파일 유지 -->
+                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    <source src="img/fullmg.mp4" type="video/mp4">
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
             </div>
         </div>
     </section>
@@ -576,7 +585,7 @@
         </div>
     </section>
 
-    <!-- 인터랙티브 스티키 섹션 (새로 개편됨: 슬라이더 기능 추가) -->
+    <!-- 인터랙티브 스티키 섹션 -->
     <section id="details" class="interactive-section">
         <div class="container sticky-container">
             
@@ -642,7 +651,7 @@
                     </ul>
                 </div>
 
-                <!-- Step 5: Reliable Partner (NEW) -->
+                <!-- Step 5: Reliable Partner -->
                 <div class="step-block" data-step="5">
                     <span class="tag">Reliable Partner</span>
                     <h2>믿을 만한<br>전문가가 함께합니다.</h2>
@@ -665,9 +674,9 @@
                 <!-- Slider 1: AI Camera -->
                 <div class="graphic-item active" id="img-1">
                     <div class="slider-track">
-                        <!-- 파일명 연결 예시 -->
-                        <img src="img/1ai_camera.png" class="slide-image" alt="AI 카메라 촬영 1" onerror="this.src='https://placehold.co/600x800/FFF3E0/FF9800?text=AI+Camera'">
-                        <img src="img/1ai_chat.png" class="slide-image" alt="AI 분석 결과" onerror="this.src='https://placehold.co/600x800/E8F5E9/4CAF50?text=AI+Result'">
+                        <!-- 사용자 설정 이미지 링크 유지 -->
+                        <img src="img/1ai_camera.png" class="slide-image" alt="AI 카메라 촬영 1">
+                        <img src="img/1ai_chat.png" class="slide-image" alt="AI 분석 결과">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -678,9 +687,8 @@
                 <!-- Slider 2: Expert Logic -->
                 <div class="graphic-item" id="img-2">
                     <div class="slider-track">
-                        <!-- 파일명 연결 예시 -->
-                        <img src="img/2feedback.png" class="slide-image" alt="전문가 그래프 메인" onerror="this.src='https://placehold.co/600x800/E8F5E9/4CAF50?text=Expert+Graph'">
-                        <img src="img/3data.png" class="slide-image" alt="개인화 플랜" onerror="this.src='https://placehold.co/600x800/FFF3E0/FF9800?text=Personalized+Plan'">
+                        <img src="img/2feedback.png" class="slide-image" alt="전문가 그래프 메인">
+                        <img src="img/3data.png" class="slide-image" alt="개인화 플랜">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -691,9 +699,8 @@
                 <!-- Slider 3: Total Care -->
                 <div class="graphic-item" id="img-3">
                     <div class="slider-track">
-                        <!-- 파일명 연결 예시 -->
-                        <img src="img/4workout.png" class="slide-image" alt="피트니스 연동" onerror="this.src='https://placehold.co/600x800/FFF3E0/FF9800?text=Fitness+Integration'">
-                        <img src="img/5main.png" class="slide-image" alt="칼로리 밸런스" onerror="this.src='https://placehold.co/600x800/E8F5E9/4CAF50?text=Calorie+Balance'">
+                        <img src="img/4workout.png" class="slide-image" alt="피트니스 연동">
+                        <img src="img/5main.png" class="slide-image" alt="칼로리 밸런스">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -704,9 +711,8 @@
                 <!-- Slider 4: Smart Direction -->
                 <div class="graphic-item" id="img-4">
                     <div class="slider-track">
-                        <!-- 파일명 연결 예시 -->
-                        <img src="img/6correction.png" class="slide-image" alt="방향 수정 알림" onerror="this.src='https://placehold.co/600x800/E8F5E9/4CAF50?text=Direction+Change'">
-                        <img src="img/7weekreview.png" class="slide-image" alt="주간 리뷰" onerror="this.src='https://placehold.co/600x800/FFF3E0/FF9800?text=Weekly+Review'">
+                        <img src="img/6correction.png" class="slide-image" alt="방향 수정 알림">
+                        <img src="img/7weekreview.png" class="slide-image" alt="주간 리뷰">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -714,10 +720,9 @@
                     </div>
                 </div>
 
-                <!-- Slider 5: Reliable Partner (NEW) -->
+                <!-- Slider 5: Reliable Partner -->
                 <div class="graphic-item" id="img-5">
                     <div class="slider-track">
-                        <!-- 이미지 파일을 넣으면 여기에 나타납니다. 임시로 플레이스홀더 사용 -->
                         <img src="img/aichat.png" class="slide-image" alt="AI 챗봇 상담 화면">
                         <img src="img/aichat2.png" class="slide-image" alt="RAG 분석 화면">
                     </div>
@@ -736,9 +741,15 @@
         <div class="container">
             <h2>건강한 변화, 지금 시작하세요</h2>
             <p>Meal Gram과 함께라면 다이어트가 더 이상 힘들지 않습니다.</p>
-            <a href="#" class="btn" style="background: white; color: var(--primary-green); padding: 16px 32px; font-size: 1.1rem;">
-                <i class="fa-solid fa-download"></i> 무료로 다운로드 받기
-            </a>
+            
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="https://apps.apple.com/app/id123456789" target="_blank" class="btn" style="background: white; color: var(--primary-green);">
+                    <i class="fa-brands fa-apple"></i> App Store
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn" style="background: white; color: var(--primary-green);">
+                    <i class="fa-brands fa-google-play"></i> Google Play
+                </a>
+            </div>
         </div>
     </section>
 
