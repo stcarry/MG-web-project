@@ -3,41 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Gram - 내 손안의 프리미엄 식단 코치</title>
+    <title>MealGram - 기록, 그 이상의 코칭</title>
+    <meta name="description" content="사진 한 장, 한 줄이면 기록 끝. 전문의가 설계한 목표와 내 기록을 아는 AI 코치가 함께하는 식단 관리 앱 MealGram.">
+    <meta name="theme-color" content="#FFFFFF">
 
-    <link rel="icon" href="logo.png"> <!-- 사용자 설정 링크 유지 -->
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- 공유 미리보기 (카카오톡·인스타그램·메신저) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MealGram">
+    <meta property="og:url" content="https://mealgram.kr/">
+    <meta property="og:title" content="MealGram - 기록, 그 이상의 코칭">
+    <meta property="og:description" content="사진 한 장, 한 줄이면 기록 끝. 전문의가 설계한 목표와 AI 코치가 함께하는 식단 관리 앱.">
+    <meta property="og:image" content="https://mealgram.kr/img/v2/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- CSS Reset & Variables --- */
+        /* --- 디자인 토큰: 앱 아이콘(초록 체크 + 탄·단·지 3색 링) 기준 --- */
         :root {
-            --primary-green: #4CAF50;
-            --primary-orange: #FF9800;
-            --primary-gradient: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-orange) 100%);
-            
-            --secondary-green-light: #E8F5E9;
-            --secondary-orange-light: #FFF3E0;
-            
-            --text-main: #2E3B4E;
-            --text-sub: #546E7A;
-            
-            --white: #ffffff;
-            --bg-color: var(--white);
+            --green: #31C459;        /* 브랜드 초록 (아이콘) */
+            --green-600: #22A447;    /* 큰 글자 강조용 */
+            --green-800: #147A39;    /* 작은 초록 글자용 */
+            --teal: #2BAECD;         /* 탄수화물 */
+            --orange: #FD9202;       /* 단백질 */
+            --purple: #A654DC;       /* 지방 */
 
-            --accent-color: #FF5722;
+            --mint-50: #F3F8F5;
+            --mint-100: #EAF5ED;
+            --mint-200: #D6EEDD;
+
+            --ink: #0F1512;
+            --ink-2: #2B3430;
+            --sub: #5F6B66;
+            --line: #E5EBE7;
+            --bg-soft: #F5F7F6;
+            --white: #ffffff;
+
+            --shadow-lg: 0 30px 60px -24px rgba(16, 40, 26, 0.28);
+            --shadow-md: 0 18px 40px -22px rgba(16, 40, 26, 0.22);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
         body {
-            font-family: 'Pretendard', sans-serif;
-            color: var(--text-main);
-            background-color: var(--bg-color);
+            font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            color: var(--ink);
+            background-color: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
+            word-break: keep-all;
+            -webkit-font-smoothing: antialiased;
         }
 
         a { text-decoration: none; color: inherit; }
@@ -55,50 +78,65 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            border-radius: 999px;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
-        .btn-primary {
-            background: var(--primary-gradient);
+        .btn-app {
+            background: var(--green);
+            color: var(--ink);
+            padding: 9px 20px;
+            font-size: 0.92rem;
+        }
+        .btn-app:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -8px rgba(49, 196, 89, 0.6); }
+
+        /* 스토어 버튼 (배지형) */
+        .btn-store {
+            border-radius: 16px;
+            padding: 14px 26px;
+            min-width: 188px;
+            font-size: 1.05rem;
+            background: var(--ink);
             color: var(--white);
-            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3);
-            border: none;
+            box-shadow: 0 10px 24px -14px rgba(15, 21, 18, 0.7);
         }
+        .btn-store i { font-size: 1.35rem; }
+        .btn-store:hover { transform: translateY(-2px); background: #1d2621; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--mint-100);
+            color: var(--green-800);
+            font-size: 0.875rem;
+            font-weight: 600;
         }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary-green);
-            color: var(--primary-green);
-        }
-
-        .btn-outline:hover {
-            background: var(--secondary-green-light);
-        }
+        .pill::before { content: '+'; font-weight: 800; }
 
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
             text-align: center;
-            margin-bottom: 1rem;
-            color: var(--text-main);
+            margin-bottom: 14px;
+            color: var(--ink);
         }
 
         .section-desc {
             font-size: 1.125rem;
-            color: var(--text-sub);
+            color: var(--sub);
             text-align: center;
             max-width: 600px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 3.25rem;
         }
 
         /* --- Header --- */
@@ -107,29 +145,31 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: saturate(160%) blur(12px);
+            -webkit-backdrop-filter: saturate(160%) blur(12px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(15, 21, 18, 0.06);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px;
+            height: 68px;
         }
 
         .logo {
             display: flex;
             align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            color: var(--ink);
         }
 
-        .logo img {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-        }
+        .logo img { width: 34px; height: 34px; }
 
         .nav-links {
             display: flex;
@@ -138,41 +178,38 @@
 
         .nav-links a {
             font-weight: 500;
-            color: var(--text-sub);
+            color: var(--sub);
             transition: color 0.2s;
         }
 
-        .nav-links a:hover {
-            color: var(--primary-green);
-        }
+        .nav-links a:hover { color: var(--ink); }
 
         /* --- Hero Section --- */
         .hero {
-            padding: 160px 0 100px;
-            background: radial-gradient(circle at top right, var(--secondary-orange-light) 0%, transparent 40%),
-                        radial-gradient(circle at bottom left, var(--secondary-green-light) 0%, transparent 40%);
+            padding: 150px 0 96px;
             text-align: center;
+            background:
+                radial-gradient(55% 45% at 88% 0%, rgba(49, 196, 89, 0.16) 0%, transparent 70%),
+                radial-gradient(45% 40% at 5% 95%, rgba(43, 174, 205, 0.10) 0%, transparent 70%),
+                linear-gradient(180deg, var(--mint-50) 0%, var(--white) 78%);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 5.6vw, 4.1rem);
             font-weight: 800;
-            margin-bottom: 24px;
-            line-height: 1.2;
-            color: var(--text-main);
+            letter-spacing: -0.035em;
+            line-height: 1.14;
+            margin: 22px 0 22px;
+            color: var(--ink);
         }
 
-        .hero h1 span {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .hero h1 .accent { color: var(--green-600); }
 
         .hero p {
-            font-size: 1.25rem;
-            color: var(--text-sub);
-            margin-bottom: 40px;
-            max-width: 700px;
+            font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+            color: var(--sub);
+            margin-bottom: 38px;
+            max-width: 640px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -180,43 +217,50 @@
         .app-buttons {
             display: flex;
             justify-content: center;
-            gap: 16px;
-            margin-bottom: 60px;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 64px;
         }
 
         .hero-image {
-            max-width: 1000px;
-            width: 100%; /* 반응형 너비 */
+            max-width: 1040px;
+            width: 100%;
             margin: 0 auto;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-radius: 28px;
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
-            border: 8px solid rgba(255,255,255,0.8);
-            background-color: #000;
-            /* [수정] 16:9 비율 고정 (반응형 대응) */
+            border: 1px solid var(--line);
+            background-color: var(--mint-50);
             aspect-ratio: 16 / 9;
+        }
+
+        .hero-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         /* --- Features Grid --- */
         .features {
-            padding: 100px 0;
+            padding: 110px 0;
             background-color: var(--white);
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 960px;
+            gap: 24px;
+            max-width: 980px;
             margin: 0 auto;
         }
 
         .feature-card {
-            padding: 30px;
+            padding: 32px;
             border-radius: 24px;
-            background: var(--white);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #eee;
+            background: var(--bg-soft);
+            border: 1px solid transparent;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -224,40 +268,43 @@
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-            border-color: var(--primary-green);
+            transform: translateY(-6px);
+            background: var(--white);
+            border-color: var(--line);
+            box-shadow: var(--shadow-md);
         }
 
         .icon-box {
-            width: 56px;
-            height: 56px;
-            background: var(--secondary-green-light);
+            width: 52px;
+            height: 52px;
+            background: var(--c, var(--green));
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: var(--primary-green);
-            margin-bottom: 20px;
+            font-size: 22px;
+            color: var(--white);
+            margin-bottom: 22px;
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
-            color: var(--text-main);
+            font-size: 1.28rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            color: var(--ink);
         }
 
         .feature-card p {
-            color: var(--text-sub);
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: var(--sub);
+            font-size: 0.98rem;
+            line-height: 1.6;
         }
 
         /* --- Sticky Interactive Section --- */
         .interactive-section {
-            padding: 100px 0;
-            background-color: #f9fbfd;
+            padding: 110px 0;
+            background-color: var(--bg-soft);
         }
 
         .sticky-container {
@@ -278,36 +325,41 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            opacity: 0.3;
+            opacity: 0.28;
             transition: opacity 0.5s ease;
         }
 
-        .step-block.active {
-            opacity: 1;
-        }
+        .step-block.active { opacity: 1; }
 
         .tag {
-            display: inline-block;
-            padding: 6px 12px;
-            background: var(--secondary-orange-light);
-            color: var(--primary-orange);
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 16px;
+            display: inline-flex;
+            align-self: flex-start;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--mint-100);
+            color: var(--green-800);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            margin-bottom: 18px;
         }
+        .tag::before { content: '+'; font-weight: 800; }
 
         .step-block h2 {
-            font-size: 2.5rem;
+            font-size: clamp(1.9rem, 3.2vw, 2.55rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
             margin-bottom: 20px;
-            line-height: 1.3;
-            color: var(--text-main);
+            line-height: 1.25;
+            color: var(--ink);
         }
 
         .step-block p {
-            font-size: 1.125rem;
-            color: var(--text-sub);
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: var(--sub);
+            margin-bottom: 28px;
         }
 
         .check-list li {
@@ -315,30 +367,26 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
-            color: var(--text-main);
+            font-weight: 600;
+            color: var(--ink-2);
         }
 
-        .check-list i {
-            color: var(--primary-green);
-        }
+        .check-list i { color: var(--green); font-size: 1.15rem; }
 
         /* 오른쪽: 고정된 이미지 영역 */
         .sticky-graphic {
             width: 50%;
-            /* [수정] 높이 고정 제거 및 4:5 비율 적용 */
             aspect-ratio: 4 / 5;
-            
             position: sticky;
-            top: 15vh; /* 화면 중앙 정렬을 위한 위치값 조정 */
-            border-radius: 30px;
+            top: 14vh;
+            border-radius: 32px;
             overflow: hidden;
             background: var(--white);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            border: 8px solid rgba(255,255,255,0.8);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--line);
         }
 
-        /* 슬라이더(Carousel) 구조 스타일 */
+        /* 슬라이더(Carousel) */
         .graphic-item {
             position: absolute;
             top: 0;
@@ -347,10 +395,11 @@
             height: 100%;
             opacity: 0;
             transition: opacity 0.5s ease-in-out, transform 0.5s ease;
-            transform: scale(1.05);
+            transform: scale(1.04);
             pointer-events: none;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .graphic-item.active {
@@ -371,142 +420,209 @@
             min-width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: top center;
+            background: var(--white);
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         /* 하단 닷 네비게이션 */
         .slider-pagination {
             position: absolute;
-            bottom: 25px;
+            bottom: 22px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 8px;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.78);
+            padding: 8px 12px;
+            border-radius: 999px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(16, 40, 26, 0.08);
         }
 
         .slider-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(15, 21, 18, 0.22);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .slider-dot:hover {
-            background: rgba(0, 0, 0, 0.4);
-        }
+        .slider-dot:hover { background: rgba(15, 21, 18, 0.4); }
 
         .slider-dot.active {
-            background: var(--primary-green);
-            transform: scale(1.2);
+            width: 22px;
+            background: var(--green);
         }
+
+        /* 모바일 전용: 단계마다 화면을 바로 아래에 표시 */
+        .mobile-graphic { display: none; }
 
         /* --- CTA Section --- */
         .cta {
-            padding: 100px 0;
-            background: var(--primary-gradient);
+            padding: 110px 0;
+            background:
+                radial-gradient(60% 90% at 50% 0%, rgba(49, 196, 89, 0.30) 0%, transparent 70%),
+                #0E1512;
             color: var(--white);
             text-align: center;
         }
 
+        .cta .cta-mark { width: 72px; height: 72px; margin: 0 auto 24px; }
+
         .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 14px;
             color: var(--white);
         }
 
         .cta p {
-            font-size: 1.25rem;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.72);
             margin-bottom: 40px;
-            color: var(--white);
         }
-        
-        .cta .btn {
+
+        .cta .btn-store {
             background: var(--white);
-            color: var(--primary-green);
-            font-weight: 700;
+            color: var(--ink);
+            box-shadow: none;
         }
-        
-        .cta .btn:hover {
-            background: var(--secondary-green-light);
-        }
+
+        .cta .btn-store:hover { background: var(--mint-100); }
 
         /* --- Footer --- */
         footer {
             padding: 60px 0;
             background: var(--white);
             text-align: center;
-            color: var(--text-sub);
+            color: var(--sub);
             font-size: 0.875rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--line);
         }
 
         .biz-info {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--line);
             font-size: 0.8rem;
-            line-height: 1.6;
-            color: var(--text-sub);
+            line-height: 1.7;
+            color: var(--sub);
         }
-        
+
         .biz-info strong {
-            font-weight: 600;
-            color: var(--text-main);
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+        }
+
+        .footer-brand img { width: 22px; height: 22px; }
+
+        .footer-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         footer a {
-            color: var(--text-sub);
+            color: var(--sub);
             transition: color 0.2s;
         }
-        
-        footer a:hover {
-            color: var(--primary-green);
-        }
+
+        footer a:hover { color: var(--green-800); }
 
         /* --- Mobile Responsive --- */
         @media (max-width: 900px) {
-            .sticky-container {
-                flex-direction: column-reverse;
-            }
-            
+            .nav-links { display: none; }
+
+            .hero { padding: 120px 0 72px; }
+            .app-buttons { margin-bottom: 44px; }
+            .btn-store { min-width: 0; flex: 1 1 150px; max-width: 240px; padding: 14px 16px; font-size: 1rem; }
+            .hero-image { border-radius: 20px; }
+
+            .features, .interactive-section, .cta { padding: 80px 0; }
+            .feature-grid { grid-template-columns: 1fr; gap: 16px; }
+            .feature-card { padding: 26px; }
+
             .scroll-content {
                 width: 100%;
-                padding-bottom: 50px;
+                padding-bottom: 0;
             }
 
             .step-block {
                 min-height: auto;
-                margin-bottom: 60px;
+                margin-bottom: 72px;
                 opacity: 1;
             }
 
-            .sticky-graphic {
-                width: 100%;
-                height: auto;
-                aspect-ratio: 4 / 5; /* 모바일에서도 비율 유지 */
-                position: relative;
-                top: 0;
-                margin-bottom: 40px;
-            }
-            
-            .graphic-item {
-                display: none;
-            }
-            .graphic-item.active {
+            .step-block:last-child { margin-bottom: 0; }
+
+            .sticky-graphic { display: none; }
+
+            .mobile-graphic {
                 display: block;
+                position: relative;
+                width: 100%;
+                max-width: 440px;
+                aspect-ratio: 4 / 5;
+                margin: 8px auto 0;
+                border-radius: 24px;
+                overflow: hidden;
+                background: var(--white);
+                border: 1px solid var(--line);
+                box-shadow: var(--shadow-md);
             }
-            
-            .nav-links { display: none; }
-            .feature-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
+
+            .mobile-graphic .graphic-item {
+                opacity: 1;
+                transform: none;
+                pointer-events: auto;
+            }
+        }
+
+        /* --- 준비 중 안내 팝업 --- */
+        .soon-dialog {
+            margin: auto;
+            border: none;
+            padding: 0;
+            border-radius: 22px;
+            width: min(320px, calc(100% - 48px));
+            color: var(--ink);
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+        }
+        .soon-dialog::backdrop { background: rgba(15, 21, 18, 0.45); }
+        .soon-box { padding: 30px 26px 22px; text-align: center; }
+        .soon-box img { width: 48px; height: 48px; margin: 0 auto 16px; }
+        .soon-box h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 22px;
+        }
+        .soon-box .btn { width: 100%; padding: 12px 20px; border: none; font: inherit; font-size: 1rem; font-weight: 700; }
+        .soon-box .btn:focus-visible { outline: 3px solid rgba(49, 196, 89, 0.35); outline-offset: 2px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition: none !important; }
         }
     </style>
 </head>
@@ -515,41 +631,41 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
-                    <!-- 사용자 설정 링크 유지 -->
-                    <img src="logo.png" alt="Meal Gram Logo" style="height: 50px;">
-                </div>
+                <a href="#" class="logo" aria-label="MealGram 홈">
+                    <img src="img/v2/mealgram-mark.svg" alt="" width="34" height="34">
+                    <span>MealGram</span>
+                </a>
                 <div class="nav-links">
                     <a href="#features">주요기능</a>
                     <a href="#details">전문가 코칭</a>
                     <a href="#download">다운로드</a>
-                    <a href="https://www.notion.so" target="_blank">개발일지</a>
+                    <a href="#" data-soon>개발일지</a>
                 </div>
-                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem; text-decoration: none;">앱 열기</a>
+                <!-- 기기별 자동 연결: iPhone → App Store / Android → Google Play / PC → 다운로드 섹션 -->
+                <a href="#download" id="open-app" class="btn btn-app">앱 열기</a>
             </nav>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1>실패 없는 다이어트,<br><span>내 손안의 전문가</span>와 함께</h1>
+            <span class="pill">식단 관리의 새로운 기준</span>
+            <h1>기록, 그 이상의<br><span class="accent">코칭</span>.</h1>
             <p>
-                복잡한 칼로리 계산, 귀찮은 기록은 이제 그만.<br>
-                Meal Gram이 가장 똑똑하게 당신의 식단을 관리해 드립니다.
+                사진 한 장, 한 줄이면 기록은 끝.<br>
+                전문의가 설계한 목표와 내 기록을 아는 AI 코치가 그다음을 함께합니다.
             </p>
             <div class="app-buttons">
-                <a href="https://apps.apple.com/app/id123456789" target="_blank" class="btn btn-primary">
+                <a href="https://apps.apple.com/kr/app/mealgram/id6756771849" target="_blank" rel="noopener" class="btn btn-store">
                     <i class="fa-brands fa-apple"></i> App Store
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn btn-primary">
+                <a href="https://play.google.com/store/apps/details?id=com.drsfit.mealgram&hl=ko" target="_blank" rel="noopener" class="btn btn-store">
                     <i class="fa-brands fa-google-play"></i> Google Play
                 </a>
             </div>
             <div class="hero-image">
-                <!-- 사용자 설정 영상 파일 유지 -->
-                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                    <source src="img/fullmg.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
+                <video autoplay muted loop playsinline preload="metadata" poster="img/v2/hero-poster.jpg">
+                    <source src="img/v2/hero.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -557,29 +673,29 @@
 
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">왜 Meal Gram인가요?</h2>
-            <p class="section-desc">지속 가능한 건강함을 위해 필요한 모든 기능을 담았습니다.</p>
-            
+            <h2 class="section-title">왜 MealGram인가요?</h2>
+            <p class="section-desc">기록은 가볍게, 코칭은 정확하게.</p>
+
             <div class="feature-grid">
                 <div class="feature-card">
-                    <div class="icon-box"><i class="fa-solid fa-camera"></i></div>
-                    <h3>AI 간편 기록</h3>
-                    <p>사진 한 장만 찍으세요. 최신 AI가 음식 종류와 양, 영양성분까지 자동으로 분석합니다.</p>
+                    <div class="icon-box" style="--c: var(--green);"><i class="fa-solid fa-camera"></i></div>
+                    <h3>사진 한 장, 한 줄이면 끝</h3>
+                    <p>음식 사진을 찍거나 ‘제육덮밥 한 그릇’처럼 한 줄만 적으면 AI가 음식과 양, 탄·단·지를 분석해 끼니별로 정리합니다.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="icon-box"><i class="fa-solid fa-user-doctor"></i></div>
-                    <h3>전문가 설계 로직</h3>
-                    <p>의학/영양학 전문가가 설계한 알고리즘으로 당신에게 딱 맞는 섭취 목표를 제시합니다.</p>
+                    <div class="icon-box" style="--c: var(--teal);"><i class="fa-solid fa-user-doctor"></i></div>
+                    <h3>전문의가 설계한 목표</h3>
+                    <p>신체 정보와 활동량, 목표에 맞춰 하루 칼로리와 탄·단·지 목표를 계산합니다. 운동한 만큼 목표도 함께 조정돼요.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="icon-box"><i class="fa-solid fa-chart-pie"></i></div>
-                    <h3>실시간 분석 리포트</h3>
-                    <p>데이터에 기반한 실시간 피드백으로 오늘 식단의 문제점을 즉시 파악하고 개선하세요.</p>
+                    <div class="icon-box" style="--c: var(--orange);"><i class="fa-solid fa-chart-pie"></i></div>
+                    <h3>오늘이 한눈에</h3>
+                    <p>먹은 칼로리와 탄·단·지를 목표와 나란히 보여 줘서, 넘치거나 모자라면 바로 알 수 있어요.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="icon-box"><i class="fa-solid fa-compass"></i></div>
-                    <h3>스마트 방향 제시</h3>
-                    <p>기록이 쌓일수록 방향이 명확해집니다. 목표에서 너무 벗어나면 방향을 수정해줍니다!</p>
+                    <div class="icon-box" style="--c: var(--purple);"><i class="fa-solid fa-comments"></i></div>
+                    <h3>쌓일수록 정확한 코칭</h3>
+                    <p>주간 리포트로 흐름을 확인하고, 내 기록을 아는 AI 코치에게 바로 물어보세요.</p>
                 </div>
             </div>
         </div>
@@ -588,81 +704,79 @@
     <!-- 인터랙티브 스티키 섹션 -->
     <section id="details" class="interactive-section">
         <div class="container sticky-container">
-            
+
             <!-- 왼쪽: 스크롤 텍스트 영역 -->
             <div class="scroll-content">
-                
+
                 <!-- Step 1: AI 기록 -->
                 <div class="step-block active" data-step="1">
                     <span class="tag">Smart Recording</span>
-                    <h2>귀찮은 기록은 이제 그만<br>찰칵, 찍으면 끝!</h2>
+                    <h2>찰칵 한 번, 한 줄이면<br>기록 끝</h2>
                     <p>
-                        매끼 검색하고 입력하는 번거로움 때문에 기록을 포기하셨나요?
-                        Meal Gram의 '푸드 렌즈'는 사진 속 음식을 인식하여
-                        복잡한 영양 정보를 1초 만에 기록해줍니다.
+                        매끼 검색하고 입력하느라 기록을 포기하셨나요?
+                        사진을 찍거나 먹은 음식을 한 줄로 적으면 AI가 음식 종류와 양,
+                        탄·단·지까지 분석해 끼니별로 정리해 줍니다.
                     </p>
                     <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> 99% 정확도의 이미지 인식</li>
-                        <li><i class="fa-solid fa-check"></i> 자연어 처리 텍스트 기록 지원</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 사진 속 여러 음식을 한 번에 분석</li>
+                        <li><i class="fa-solid fa-circle-check"></i> ‘한 그릇 먹었어’ 같은 한 줄 입력</li>
                     </ul>
                 </div>
 
                 <!-- Step 2: 전문가 로직 -->
                 <div class="step-block" data-step="2">
-                    <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Expert Logic</span>
-                    <h2>감은 믿지 마세요<br>과학적인 데이터를 믿으세요</h2>
+                    <span class="tag">Expert Logic</span>
+                    <h2>감 말고,<br>근거로 정한 목표</h2>
                     <p>
-                        "무조건 적게 먹으면 빠진다?" 틀렸습니다.
-                        당신의 신체 정보와 활동량, 목표에 맞춰
-                        의학적 근거에 기반한 가장 이상적인 섭취량을 알려드립니다.
+                        “무조건 적게 먹으면 빠진다?” 이제 그만.
+                        신체 정보와 활동량, 목표에 맞춰
+                        의학적 근거로 하루 칼로리와 탄·단·지 목표를 계산합니다.
                     </p>
                     <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> 현직 의사 및 코치진 공동 개발</li>
-                        <li><i class="fa-solid fa-check"></i> 활동량에 따른 목표 섭취량 자동 보정</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 현직 전문의가 설계한 계산 로직</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 운동한 만큼 목표 자동 보정</li>
                     </ul>
                 </div>
 
                 <!-- Step 3: 통합 관리 -->
                 <div class="step-block" data-step="3">
                     <span class="tag">Total Care</span>
-                    <h2>식단부터 운동까지<br>하나의 흐름으로 관리</h2>
+                    <h2>식단부터 운동까지,<br>오늘이 한눈에</h2>
                     <p>
-                        먹은 만큼 움직이고, 움직인 만큼 먹습니다.
-                        식단과 운동 데이터를 통합 관리하여
-                        건강한 에너지 균형을 맞춰드립니다.
+                        섭취 칼로리와 탄·단·지를 목표와 나란히 보여 줍니다.
+                        운동 기록까지 반영해 오늘 얼마나 더 먹어도 되는지 바로 알 수 있어요.
                     </p>
                     <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> 섭취 칼로리 vs 소모 칼로리 비교</li>
-                        <li><i class="fa-solid fa-check"></i> 운동 수행 능력에 따른 영양 가이드</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 끼니별 칼로리·탄단지 요약</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 운동 소모 칼로리 반영</li>
                     </ul>
                 </div>
 
                 <!-- Step 4: 방향 제시 -->
                 <div class="step-block" data-step="4">
-                    <span class="tag" style="background: var(--secondary-green-light); color: var(--primary-green);">Smart Direction</span>
-                    <h2>기록이 쌓일 수록,<br>방향이 명확해집니다</h2>
+                    <span class="tag">Smart Direction</span>
+                    <h2>기록이 쌓일수록,<br>방향이 보입니다</h2>
                     <p>
-                        목표에서 너무 벗어난다면, Meal Gram이 방향을 수정해줍니다!<br>
-                        데이터가 쌓일수록 나에게 최적화된 가이드를 받아보세요.
+                        주간 리포트가 평균 섭취량과 식단 일관성, 목표 대비 흐름을 정리합니다.
+                        목표에서 벗어나면 조정할 방향을 제안해 드려요.
                     </p>
                     <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> 장기 데이터 기반 목표 재설정</li>
-                        <li><i class="fa-solid fa-check"></i> 맞춤형 피드백 제공</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 주간 리포트로 흐름 한눈에</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 기록 기반 목표 조정 제안</li>
                     </ul>
                 </div>
 
                 <!-- Step 5: Reliable Partner -->
                 <div class="step-block" data-step="5">
                     <span class="tag">Reliable Partner</span>
-                    <h2>믿을 만한<br>전문가가 함께합니다.</h2>
+                    <h2>내 기록을 아는<br>AI 코치</h2>
                     <p>
-                        고도로 학습한 [닥터스핏 AI] 챗봇이<br>
-                        여러분이 꾸준히 입력한 데이터를 기반으로<br>
-                        다양한 상담을 해드립니다.
+                        닥터스핏 AI 코치가 그동안 쌓인 내 기록을 바탕으로
+                        식단과 운동, 목표에 대한 질문에 답합니다.
                     </p>
                     <ul class="check-list">
-                        <li><i class="fa-solid fa-check"></i> 전문서적과 최신지견을 학습한 RAG</li>
-                        <li><i class="fa-solid fa-check"></i> 사용자의 이용자료 기반으로 대화</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 전문 서적과 최신 지견을 학습한 RAG</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 내 기록 기반 맞춤 답변</li>
                     </ul>
                 </div>
 
@@ -670,13 +784,12 @@
 
             <!-- 오른쪽: 고정 이미지 영역 (Sticky Slider) -->
             <div class="sticky-graphic">
-                
-                <!-- Slider 1: AI Camera -->
+
+                <!-- Slider 1: AI 기록 -->
                 <div class="graphic-item active" id="img-1">
                     <div class="slider-track">
-                        <!-- 사용자 설정 이미지 링크 유지 -->
-                        <img src="img/1ai_camera.png" class="slide-image" alt="AI 카메라 촬영 1">
-                        <img src="img/1ai_chat.png" class="slide-image" alt="AI 분석 결과">
+                        <img src="img/v2/01_record_photo.jpg" class="slide-image" alt="사진 한 장으로 분석한 식단 기록 화면">
+                        <img src="img/v2/02_record_text.jpg" class="slide-image" alt="한 줄 입력으로 분석한 식단 기록 화면" loading="lazy">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -687,20 +800,15 @@
                 <!-- Slider 2: Expert Logic -->
                 <div class="graphic-item" id="img-2">
                     <div class="slider-track">
-                        <img src="img/2feedback.png" class="slide-image" alt="전문가 그래프 메인">
-                        <img src="img/3data.png" class="slide-image" alt="개인화 플랜">
-                    </div>
-                    <div class="slider-pagination">
-                        <div class="slider-dot active"></div>
-                        <div class="slider-dot"></div>
+                        <img src="img/v2/03_plan.jpg" class="slide-image" alt="맞춤 식단 플랜 화면" loading="lazy">
                     </div>
                 </div>
 
                 <!-- Slider 3: Total Care -->
                 <div class="graphic-item" id="img-3">
                     <div class="slider-track">
-                        <img src="img/4workout.png" class="slide-image" alt="피트니스 연동">
-                        <img src="img/5main.png" class="slide-image" alt="칼로리 밸런스">
+                        <img src="img/v2/05_dashboard.jpg" class="slide-image" alt="오늘의 섭취 현황 대시보드" loading="lazy">
+                        <img src="img/v2/06_exercise.jpg" class="slide-image" alt="운동 기록 화면" loading="lazy">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -711,8 +819,8 @@
                 <!-- Slider 4: Smart Direction -->
                 <div class="graphic-item" id="img-4">
                     <div class="slider-track">
-                        <img src="img/6correction.png" class="slide-image" alt="방향 수정 알림">
-                        <img src="img/7weekreview.png" class="slide-image" alt="주간 리뷰">
+                        <img src="img/v2/07_report.jpg" class="slide-image" alt="주간 리포트 화면" loading="lazy">
+                        <img src="img/v2/08_direction.jpg" class="slide-image" alt="식단 일관성과 맞춤 컨설팅 화면" loading="lazy">
                     </div>
                     <div class="slider-pagination">
                         <div class="slider-dot active"></div>
@@ -723,12 +831,7 @@
                 <!-- Slider 5: Reliable Partner -->
                 <div class="graphic-item" id="img-5">
                     <div class="slider-track">
-                        <img src="img/aichat.png" class="slide-image" alt="AI 챗봇 상담 화면">
-                        <img src="img/aichat2.png" class="slide-image" alt="RAG 분석 화면">
-                    </div>
-                    <div class="slider-pagination">
-                        <div class="slider-dot active"></div>
-                        <div class="slider-dot"></div>
+                        <img src="img/v2/09_coach.jpg" class="slide-image" alt="AI 코치 상담 화면" loading="lazy">
                     </div>
                 </div>
 
@@ -739,14 +842,15 @@
 
     <section id="download" class="cta">
         <div class="container">
-            <h2>건강한 변화, 지금 시작하세요</h2>
-            <p>Meal Gram과 함께라면 다이어트가 더 이상 힘들지 않습니다.</p>
-            
-            <div style="display: flex; gap: 16px; justify-content: center;">
-                <a href="https://apps.apple.com/app/id123456789" target="_blank" class="btn" style="background: white; color: var(--primary-green);">
+            <img src="img/v2/mealgram-mark.svg" alt="" class="cta-mark" width="72" height="72">
+            <h2>지금 무료로 시작하세요</h2>
+            <p>오늘 한 끼, 사진 한 장부터.</p>
+
+            <div class="app-buttons" style="margin-bottom: 0;">
+                <a href="https://apps.apple.com/kr/app/mealgram/id6756771849" target="_blank" rel="noopener" class="btn btn-store">
                     <i class="fa-brands fa-apple"></i> App Store
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.mealgram" target="_blank" class="btn" style="background: white; color: var(--primary-green);">
+                <a href="https://play.google.com/store/apps/details?id=com.drsfit.mealgram&hl=ko" target="_blank" rel="noopener" class="btn btn-store">
                     <i class="fa-brands fa-google-play"></i> Google Play
                 </a>
             </div>
@@ -761,73 +865,123 @@
                 <p>주소: 서울시 양천구 목동서로2길 22 | 이메일: stcarry2@gmail.com</p>
             </div>
 
-            <p style="margin-bottom: 10px; font-weight: 600; color: var(--text-main);">Meal Gram</p>
+            <div class="footer-brand"><img src="img/v2/mealgram-mark.svg" alt="" width="22" height="22">MealGram</div>
             <p>Copyright © 2025 Meal Gram Inc. All rights reserved.</p>
-            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+            <div class="footer-links">
                 <a href="#">이용약관</a>
                 <a href="#">개인정보처리방침</a>
                 <a href="#">고객센터</a>
-                <a href="https://www.notion.so" target="_blank">개발일지</a>
+                <a href="#" data-soon>개발일지</a>
             </div>
         </div>
     </footer>
 
+    <!-- '개발일지' 준비 중 안내 -->
+    <dialog id="soon-dialog" class="soon-dialog" aria-labelledby="soon-title">
+        <div class="soon-box">
+            <img src="img/v2/mealgram-mark.svg" alt="" width="48" height="48">
+            <h3 id="soon-title">준비 중입니다</h3>
+            <button type="button" class="btn btn-app" data-close>확인</button>
+        </div>
+    </dialog>
+
     <!-- 스크롤 & 슬라이더 인터랙션 스크립트 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // 0. '앱 열기' 버튼: 접속 기기에 맞는 스토어로 연결
+            const STORE = {
+                ios: 'https://apps.apple.com/kr/app/mealgram/id6756771849',
+                android: 'https://play.google.com/store/apps/details?id=com.drsfit.mealgram&hl=ko'
+            };
+            const openApp = document.getElementById('open-app');
+            const ua = navigator.userAgent || '';
+            const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isAndroid = /Android/i.test(ua);
+            if (openApp && (isIOS || isAndroid)) {
+                openApp.href = isIOS ? STORE.ios : STORE.android;
+                openApp.target = '_blank';
+                openApp.rel = 'noopener';
+            }
+
             // 1. 스크롤 인터랙션 (Sticky Scroll)
             const steps = document.querySelectorAll('.step-block');
-            const graphics = document.querySelectorAll('.graphic-item');
-
-            const observerOptions = {
-                root: null,
-                rootMargin: '-40% 0px -40% 0px', // 화면 중앙 영역 트리거
-                threshold: 0
-            };
+            const graphics = document.querySelectorAll('.sticky-graphic .graphic-item');
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // 텍스트 활성화
-                        steps.forEach(s => s.classList.remove('active'));
-                        entry.target.classList.add('active');
-
-                        // 해당 이미지 그룹 활성화
-                        const stepIndex = entry.target.getAttribute('data-step');
-                        graphics.forEach(g => {
-                            g.classList.remove('active');
-                            if(g.id === `img-${stepIndex}`) {
-                                g.classList.add('active');
-                            }
-                        });
-                    }
+                    if (!entry.isIntersecting) return;
+                    // 텍스트 활성화
+                    steps.forEach(s => s.classList.remove('active'));
+                    entry.target.classList.add('active');
+                    // 해당 이미지 그룹 활성화
+                    const stepIndex = entry.target.getAttribute('data-step');
+                    graphics.forEach(g => g.classList.toggle('active', g.id === `img-${stepIndex}`));
                 });
-            }, observerOptions);
+            }, { root: null, rootMargin: '-40% 0px -40% 0px', threshold: 0 });
 
             steps.forEach(step => observer.observe(step));
 
-            // 2. 내부 이미지 슬라이더 (Carousel)
-            const graphicItems = document.querySelectorAll('.graphic-item');
-            
-            graphicItems.forEach(item => {
+            // 2. 모바일: 단계마다 해당 화면을 텍스트 바로 아래에 복제해 표시
+            steps.forEach(step => {
+                const source = document.getElementById(`img-${step.getAttribute('data-step')}`);
+                if (!source) return;
+                const wrap = document.createElement('div');
+                wrap.className = 'mobile-graphic';
+                const clone = source.cloneNode(true);
+                clone.removeAttribute('id');
+                clone.classList.add('active');
+                clone.querySelectorAll('img').forEach(img => img.setAttribute('loading', 'lazy'));
+                wrap.appendChild(clone);
+                step.appendChild(wrap);
+            });
+
+            // 3. 내부 이미지 슬라이더 (점 클릭 · 이미지 클릭 · 좌우 스와이프)
+            document.querySelectorAll('.graphic-item').forEach(item => {
                 const track = item.querySelector('.slider-track');
-                if(!track) return;
-                
+                if (!track) return;
                 const dots = item.querySelectorAll('.slider-dot');
-                
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', (e) => {
-                        e.stopPropagation(); // 상위 이벤트 전파 방지
-                        
-                        // 닷 활성화 상태 변경
-                        dots.forEach(d => d.classList.remove('active'));
-                        dot.classList.add('active');
-                        
-                        // 슬라이드 이동 (가로축 이동)
-                        track.style.transform = `translateX(-${index * 100}%)`;
-                    });
+                const count = track.children.length;
+                let index = 0;
+
+                const go = (i) => {
+                    index = (i + count) % count;
+                    track.style.transform = `translateX(-${index * 100}%)`;
+                    dots.forEach((d, j) => d.classList.toggle('active', j === index));
+                };
+
+                dots.forEach((dot, i) => dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    go(i);
+                }));
+
+                track.addEventListener('click', () => go(index + 1));
+
+                let startX = null;
+                item.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+                item.addEventListener('touchend', (e) => {
+                    if (startX === null) return;
+                    const dx = e.changedTouches[0].clientX - startX;
+                    if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+                    startX = null;
                 });
             });
+
+            // 5. '개발일지' — 준비 중 안내 팝업
+            const soon = document.getElementById('soon-dialog');
+            document.querySelectorAll('[data-soon]').forEach(link => link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (soon && typeof soon.showModal === 'function') soon.showModal();
+                else alert('준비 중입니다');
+            }));
+            if (soon) {
+                soon.querySelector('[data-close]').addEventListener('click', () => soon.close());
+                soon.addEventListener('click', (e) => { if (e.target === soon) soon.close(); });
+            }
+
+            // 4. 움직임 줄이기 설정 존중
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('video[autoplay]').forEach(v => { v.removeAttribute('autoplay'); v.pause(); });
+            }
         });
     </script>
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="75.4 74 870 870" role="img" aria-label="MealGram">
+<g fill="none" stroke-linecap="round">
+<path d="M152.5 566.9A364 364 0 0 1 416.2 149.0" stroke="#2BAECD" stroke-width="130"/>
+<path d="M604.6 149.0A364 364 0 0 1 868.3 566.9" stroke="#FD9202" stroke-width="130"/>
+<path d="M788.1 733.6A362.5 362.5 0 0 1 232.7 733.6" stroke="#A654DC" stroke-width="142"/>
+</g>
+<circle cx="510.4" cy="500.6" r="234" fill="#31C459"/>
+<path d="M410 503L477.5 571L617 436.5" fill="none" stroke="#fff" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
